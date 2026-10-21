@@ -1,0 +1,131 @@
+---
+import Base from '../layouts/Base.astro';
+import { site, images, services } from '../data/site.js';
+
+const D = "font-family:'Big Shoulders Display',sans-serif";
+const statNum = `display:block;${D};font-weight:900;font-size:56px;line-height:0.9`;
+const step = 'display:grid;grid-template-columns:64px minmax(0,1fr);gap:16px;padding:18px 0;border-top:2px solid #111311';
+const stepNum = `${D};font-weight:900;font-size:40px;line-height:1`;
+const area = 'border-bottom:3px solid #8DB33A;padding-bottom:4px';
+const g = images.g;
+// "Recent jobs" grid: [image, alt text, extra grid style]
+const recent = [
+  [g(7), 'Recent landscaping project', 'grid-column:span 2;grid-row:span 2;'],
+  [g(4), 'Retaining wall project', ''],
+  [g(8), 'Paving stone project', ''],
+  [images.pergola, 'Pergola', 'grid-column:span 2;'],
+  [g(15), 'Driveway project', ''],
+  [g(2), 'Fencing project', ''],
+  [images.patio, 'Backyard patio', 'grid-column:span 2;'],
+];
+---
+<Base
+  title="Vancouver Wolfpack Landscaping | Landscaping and hardscaping in Langley and Surrey"
+  description="Retaining walls, paving stones, fences, driveways, excavation and lawn care across Langley, Surrey and Metro Vancouver. 40+ years in the trade. Mike calls back within 24 hours."
+>
+<main>
+  <section style="position:relative;min-height:max(640px,calc(100vh - 84px));display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden">
+    <img src={images.hero} alt="Finished backyard with lawn and tree" fetchpriority="high" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" />
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(17,19,17,0.15) 0%,rgba(17,19,17,0.35) 45%,rgba(17,19,17,0.95) 100%)"></div>
+    <div style="position:relative;max-width:1440px;width:100%;margin:0 auto;padding:0 clamp(20px,4vw,56px) clamp(36px,5vw,64px)">
+      <h1 style={`${D};font-weight:900;font-size:clamp(72px,12vw,220px);line-height:0.82;text-transform:uppercase;margin:0;color:#FFFFFF;letter-spacing:-0.005em`}>Quality<br />you can <span style="color:#A9CC5A">trust.</span></h1>
+      <div style="margin-top:28px;display:flex;flex-wrap:wrap;gap:24px 56px;align-items:flex-end;justify-content:space-between">
+        <p style="margin:0;max-width:34em;font-size:clamp(18px,1.5vw,21px);font-weight:500;color:#F3F0E8">Retaining walls, paving stones, fences, driveways, excavation and lawn care across Langley, Surrey and Metro Vancouver. Tell Mike what you want and the crew gets it done.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px">
+          <a href="/contact" class="btn-green" style={`${D};font-weight:900;font-size:24px;letter-spacing:0.03em;text-transform:uppercase;padding:18px 30px;text-decoration:none;white-space:nowrap`}>Get a Free Quote</a>
+          <a href={site.phoneHref} class="btn-outline" style={`${D};font-weight:900;font-size:24px;letter-spacing:0.03em;text-transform:uppercase;padding:16px 28px;text-decoration:none;white-space:nowrap`}>{site.phone}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#8DB33A;color:#111311">
+    <div style="max-width:1440px;margin:0 auto;padding:0 clamp(20px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))">
+      <div style="padding:26px 24px 26px 0;border-right:2px solid #111311"><span style={statNum}>40+ yrs</span><span style="font-weight:700">in landscaping, BC and Alberta</span></div>
+      <div style="padding:26px 24px;border-right:2px solid #111311"><span style={statNum}>24 hrs</span><span style="font-weight:700">callback, guaranteed</span></div>
+      <div style="padding:26px 24px;border-right:2px solid #111311"><span style={statNum}>Since 2008</span><span style="font-weight:700">in the Lower Mainland</span></div>
+      <div style="padding:26px 0 26px 24px"><span style={statNum}>Res + Com</span><span style="font-weight:700">homes, stratas and businesses</span></div>
+    </div>
+  </section>
+
+  <section style="max-width:1440px;margin:0 auto;padding:clamp(64px,8vw,120px) clamp(20px,4vw,56px)">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px 60px;margin-bottom:clamp(32px,4vw,52px)">
+      <h2 style={`${D};font-weight:900;font-size:clamp(56px,7vw,128px);line-height:0.84;text-transform:uppercase;margin:0`}>If you want it,<br /><span style="color:#A9CC5A">we’ll build it.</span></h2>
+      <p style="margin:0;max-width:26em;color:#CFCAC0">One crew with its own mini and large excavators, a concrete pump and the trades to take a yard from dirt to done.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:4px">
+      {services.map((s) => (
+        <a href="/services" style="position:relative;display:block;aspect-ratio:4/5;overflow:hidden;color:#FFFFFF;text-decoration:none;background:#1B1E1A">
+          <img src={s.img} alt={s.title} loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" />
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(17,19,17,0) 35%,rgba(17,19,17,0.94) 100%)"></div>
+          <span style={`position:absolute;top:18px;left:20px;${D};font-weight:900;font-size:22px;color:#111311;background:#8DB33A;padding:2px 10px`}>{s.num}</span>
+          <div style="position:absolute;left:0;right:0;bottom:0;padding:24px;display:flex;flex-direction:column;gap:6px">
+            <h3 style={`${D};font-weight:900;font-size:44px;line-height:0.9;text-transform:uppercase;margin:0`}>{s.title}</h3>
+            <p style="margin:0;color:#E6E2D8;font-size:17px">{s.desc}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section style="background:#ECE8DF;color:#111311">
+    <div style="max-width:1440px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr))">
+      <div style="padding:clamp(56px,7vw,112px) clamp(20px,4vw,72px) clamp(56px,7vw,112px) clamp(20px,4vw,56px);display:flex;flex-direction:column;gap:28px;justify-content:center">
+        <h2 style={`${D};font-weight:900;font-size:clamp(52px,6vw,108px);line-height:0.84;text-transform:uppercase;margin:0`}>Straight talk.<br /><span style="color:#4E7420">Fair price.</span></h2>
+        <p style="margin:0;font-size:20px;font-weight:500">We could charge for more than you need. We don’t. Mike quotes what the job actually takes, sized to your budget, and you get exactly what you paid for.</p>
+        <div style="display:flex;flex-direction:column">
+          <div style={step}><span style={stepNum}>01</span><span><strong>Call or send the form.</strong> Mike calls back within 24 hours, guaranteed.</span></div>
+          <div style={step}><span style={stepNum}>02</span><span><strong>Site visit and quote.</strong> What it’ll take, what it’ll cost, and how long the crew needs.</span></div>
+          <div style={`${step};border-bottom:2px solid #111311`}><span style={stepNum}>03</span><span><strong>We build it.</strong> Our own crew and equipment, start to finish.</span></div>
+        </div>
+      </div>
+      <div style="position:relative;min-height:520px"><img src={images.stairs} alt="Stone stairs and planting" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" /></div>
+    </div>
+  </section>
+
+  <section style="max-width:1440px;margin:0 auto;padding:clamp(64px,8vw,120px) clamp(20px,4vw,56px)">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:32px">
+      <h2 style={`${D};font-weight:900;font-size:clamp(56px,7vw,128px);line-height:0.84;text-transform:uppercase;margin:0`}>Recent <span style="color:#A9CC5A">jobs</span></h2>
+      <a href="/gallery" style={`${D};font-weight:900;font-size:24px;text-transform:uppercase`}>Full gallery</a>
+    </div>
+    <div class="recent-grid" style="display:grid;grid-auto-rows:clamp(150px,17vw,260px);gap:4px">
+      {recent.map(([src, alt, extra]) => (
+        <div style={`${extra}overflow:hidden`}><img src={src} alt={alt} loading="lazy" style="width:100%;height:100%;object-fit:cover" /></div>
+      ))}
+    </div>
+  </section>
+
+  <section style="background:#1B1E1A">
+    <div style="max-width:1440px;margin:0 auto;padding:clamp(64px,8vw,120px) clamp(20px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:40px 80px">
+      <figure style="margin:0">
+        <blockquote style={`margin:0;${D};font-weight:800;font-size:clamp(36px,3.6vw,58px);line-height:1;text-transform:uppercase`}>“They could have easily done what I asked for a few thousand more. Instead they proved themselves honest and very budget friendly.”</blockquote>
+        <figcaption style="margin-top:20px;font-weight:700;color:#A9CC5A">Amy Sidhu · 5 stars</figcaption>
+      </figure>
+      <div style="display:flex;flex-direction:column;gap:16px;justify-content:center">
+        <p style="margin:0;font-size:20px;color:#E6E2D8">“Knowledge, expertise and a friendly crew. From quote to completion they worked hard to finish in 4 days. I highly recommend Vancouver Wolfpack Landscaping.”</p>
+        <span style="font-weight:700;color:#A9CC5A">Amy Sidhu</span>
+        <p style="margin:20px 0 0;font-size:20px;color:#E6E2D8;border-top:1px solid #2F332E;padding-top:20px">“Awesome work done. Will call you guys always.”</p>
+        <span style="font-weight:700;color:#A9CC5A">Simran Kaur</span>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#111311;color:#ECE8DF">
+    <div style="max-width:1440px;margin:0 auto;padding:clamp(56px,7vw,96px) clamp(20px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:28px 80px;align-items:start">
+      <h2 style={`${D};font-weight:900;text-transform:uppercase;font-size:clamp(40px,4.4vw,72px);line-height:0.95;letter-spacing:-0.02em;margin:0`}>Where we work</h2>
+      <div style="display:flex;flex-wrap:wrap;gap:10px 28px;font-size:20px;font-weight:600">
+        {site.serviceAreas.map((c) => <span style={area}>{c}</span>)}
+        <span style="flex-basis:100%;font-size:17px;font-weight:400;color:#CFCAC0;margin-top:6px">Not on the list? Call anyway. If we can get there, we will.</span>
+      </div>
+    </div>
+  </section>
+</main>
+</Base>
+
+<style>
+  /* "Recent jobs" grid: 4 columns on desktop, 2 below 1140px */
+  .recent-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  @media (max-width: 1139px) {
+    .recent-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>

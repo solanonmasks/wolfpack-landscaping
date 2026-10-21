@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import { images } from '../data/site.js';
+
+const D = "font-family:'Big Shoulders Display',sans-serif";
+---
+<Base
+  title="About | Vancouver Wolfpack Landscaping"
+  description="Over 40 years of commercial and residential landscaping across BC and Alberta, in the Lower Mainland since 2008. Proud sponsor of the Vancouver Wolfpack hockey team."
+>
+<main>
+  <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr))">
+    <div style="padding:clamp(48px,6vw,96px) clamp(20px,4vw,72px) clamp(48px,6vw,96px) max(clamp(20px,4vw,56px),calc((100vw - 1440px)/2 + 56px));display:flex;flex-direction:column;gap:22px;justify-content:center">
+      <h1 style={`${D};font-weight:900;font-size:clamp(64px,8vw,148px);line-height:0.82;text-transform:uppercase;margin:0`}>Forty years <span style="color:#A9CC5A">of dirt.</span></h1>
+      <p style="margin:0;font-size:20px">Vancouver Wolfpack Landscaping started out of Victoria and has done commercial and residential work across BC and Alberta for over 40 years. In 2008 we brought the business to the Lower Mainland.</p>
+      <p style="margin:0;color:#CFCAC0">Every job is tailored to what you need and what you want to spend. We work hard, we finish on time, and we deliver what you pay for.</p>
+    </div>
+    <div style="position:relative;min-height:520px"><img src={images.patio} alt="Backyard dining area" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" /></div>
+  </section>
+  <section style="background:#8DB33A;color:#111311">
+    <div style="max-width:1440px;margin:0 auto;padding:clamp(56px,7vw,96px) clamp(20px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:24px 80px;align-items:center">
+      <h2 style={`${D};font-weight:900;font-size:clamp(52px,6vw,108px);line-height:0.84;text-transform:uppercase;margin:0`}>Proud sponsor of the Vancouver Wolfpack</h2>
+      <p style="margin:0;font-size:20px;font-weight:600">We sponsor the Vancouver Wolfpack men’s hockey team in Hockey North America, and we’re happy to back local community teams too. Ask Mike.</p>
+    </div>
+  </section>
+</main>
+</Base>

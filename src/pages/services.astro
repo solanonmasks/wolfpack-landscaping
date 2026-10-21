@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+import { groups } from '../data/site.js';
+
+const D = "font-family:'Big Shoulders Display',sans-serif";
+---
+<Base
+  title="Services | Vancouver Wolfpack Landscaping"
+  description="Excavation, drain tile, retaining walls, paving stones, driveways, patios, pergolas, fencing and lawn maintenance in Langley, Surrey and Metro Vancouver."
+>
+<main>
+  <section style="max-width:1440px;margin:0 auto;padding:clamp(48px,6vw,96px) clamp(20px,4vw,56px) clamp(32px,4vw,56px)">
+    <h1 style={`${D};font-weight:900;font-size:clamp(72px,11vw,200px);line-height:0.82;text-transform:uppercase;margin:0`}>What we <span style="color:#A9CC5A">do</span></h1>
+    <p style="margin:20px 0 0;max-width:34em;font-size:20px;color:#CFCAC0">Twenty-plus services, grouped the way a yard actually gets built: dig it, build it, finish it, keep it.</p>
+  </section>
+  {groups.map((g) => (
+    <article style="border-top:1px solid #2A2E29">
+      <div style="max-width:1440px;margin:0 auto;padding:clamp(40px,5vw,72px) clamp(20px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:32px 64px;align-items:center">
+        <div style="aspect-ratio:3/2;overflow:hidden"><img src={g.img} alt={`${g.title}: ${g.items.slice(0, 3).join(', ').toLowerCase()}`} loading="lazy" style="width:100%;height:100%;object-fit:cover" /></div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <span style={`${D};font-weight:900;font-size:24px;color:#A9CC5A`}>{g.num}</span>
+          <h2 style={`${D};font-weight:900;font-size:clamp(52px,5.6vw,96px);line-height:0.84;text-transform:uppercase;margin:0`}>{g.title}</h2>
+          <p style="margin:0;color:#CFCAC0">{g.desc}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            {g.items.map((it) => <span style="border:1px solid #4A5046;padding:8px 14px;font-weight:600;font-size:16px">{it}</span>)}
+          </div>
+        </div>
+      </div>
+    </article>
+  ))}
+</main>
+</Base>

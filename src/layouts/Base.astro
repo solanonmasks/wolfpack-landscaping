@@ -1,0 +1,163 @@
+---
+// Shared page frame: <head>, header + mobile menu, closing call-to-action,
+// footer and the sticky Call / Quote bar on phones.
+import { site, images, nav } from '../data/site.js';
+
+const {
+  title = 'Vancouver Wolfpack Landscaping | Landscaping and hardscaping in Langley and Surrey',
+  description = 'Retaining walls, paving stones, fences, driveways, excavation and lawn care across Langley, Surrey and Metro Vancouver. Mike calls back within 24 hours.',
+  showCta = true, // the "Tell us what you want" band (hidden on the contact page)
+} = Astro.props;
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const canonical = new URL(Astro.url.pathname, Astro.site);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: site.name,
+  url: site.url,
+  telephone: site.phoneE164,
+  email: site.email,
+  image: images.hero,
+  logo: images.logo,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: site.address.city,
+    addressRegion: site.address.region,
+    addressCountry: site.address.country,
+  },
+  areaServed: site.serviceAreas.map((name) => ({ '@type': 'City', name })),
+  sameAs: [site.facebook],
+};
+
+const D = "font-family:'Big Shoulders Display',sans-serif";
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content={site.name} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={images.hero} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <script src="/motion.js" is:inline defer></script>
+</head>
+<body>
+<div style="font-family:'Barlow',system-ui,sans-serif;font-size:18px;line-height:1.6;color:#ECE8DF;background:#111311;min-height:100vh">
+
+<header style="position:sticky;top:0;z-index:40;background:#111311;border-bottom:1px solid #2A2E29">
+  <div style="max-width:1440px;margin:0 auto;padding:0 clamp(20px,4vw,56px);height:84px;display:flex;align-items:center;gap:36px">
+    <a href="/" style="display:flex;align-items:center;gap:14px;text-decoration:none;color:#ECE8DF;margin-right:auto;min-width:0;white-space:nowrap;overflow:hidden">
+      <img src={images.logo} alt="" style="height:52px;width:auto;min-width:0;flex-shrink:1" />
+      <span style="display:flex;flex-direction:column;line-height:0.9;white-space:nowrap;min-width:0">
+        <span style={`${D};font-weight:900;font-size:clamp(20px,5.6vw,30px);letter-spacing:0.02em;text-transform:uppercase`}>Wolfpack</span>
+        <span style="font-size:12px;font-weight:700;letter-spacing:0.26em;color:#A9CC5A">LANDSCAPING LTD.</span>
+      </span>
+    </a>
+    <nav class="desk" aria-label="Main" style="gap:30px;align-items:center">
+      {nav.map((n) => (
+        <a href={n.href} aria-current={path === n.href ? 'page' : undefined} style={`${D};font-weight:800;font-size:21px;letter-spacing:0.04em;text-transform:uppercase;color:${path === n.href ? '#A9CC5A' : '#ECE8DF'};text-decoration:none`}>{n.label}</a>
+      ))}
+    </nav>
+    <a class="desk" href={site.phoneHref} style="font-weight:700;font-size:17px;color:#ECE8DF;text-decoration:none;white-space:nowrap">{site.contactName}: {site.phone}</a>
+    <a class="desk btn-green" href="/contact" style={`${D};font-weight:900;font-size:21px;letter-spacing:0.04em;text-transform:uppercase;padding:13px 22px;text-decoration:none;white-space:nowrap`}>Free Quote</a>
+    <button class="mob-only" id="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" style={`background:#8DB33A;border:none;color:#111311;${D};font-weight:900;font-size:20px;text-transform:uppercase;padding:10px 16px;cursor:pointer;flex-shrink:0`}>Menu</button>
+  </div>
+  <div id="mobile-menu" hidden style="background:#111311;padding:8px 20px 32px;flex-direction:column">
+    {nav.map((n) => (
+      <a href={n.href} aria-current={path === n.href ? 'page' : undefined} style={`color:${path === n.href ? '#A9CC5A' : '#ECE8DF'};text-decoration:none;${D};font-weight:900;font-size:56px;line-height:1.05;text-transform:uppercase;padding:4px 0`}>{n.label}</a>
+    ))}
+    <a href={site.phoneHref} style="color:#A9CC5A;font-weight:700;font-size:21px;margin-top:20px;text-decoration:none">Call {site.contactName}: {site.phone}</a>
+  </div>
+</header>
+
+<slot />
+
+{showCta && (
+  <section style="position:relative;overflow:hidden">
+    <img src={images.cta} alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" />
+    <div style="position:absolute;inset:0;background:rgba(17,19,17,0.82)"></div>
+    <div style="position:relative;max-width:1440px;margin:0 auto;padding:clamp(72px,9vw,140px) clamp(20px,4vw,56px);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:32px 64px">
+      <h2 style={`${D};font-weight:900;font-size:clamp(60px,8vw,150px);line-height:0.82;text-transform:uppercase;margin:0;color:#FFFFFF`}>Tell us what<br />you want. <span style="color:#A9CC5A">Done.</span></h2>
+      <div style="display:flex;flex-wrap:wrap;gap:10px">
+        <a href="/contact" class="btn-green" style={`${D};font-weight:900;font-size:24px;text-transform:uppercase;padding:18px 30px;text-decoration:none;white-space:nowrap`}>Get a Free Quote</a>
+        <a href={site.phoneHref} class="btn-outline" style={`${D};font-weight:900;font-size:24px;text-transform:uppercase;padding:16px 28px;text-decoration:none;white-space:nowrap`}>{site.phone}</a>
+      </div>
+    </div>
+  </section>
+)}
+
+<footer style="background:#0A0B0A;color:#BFBAB0">
+  <div style="max-width:1440px;margin:0 auto;padding:56px clamp(20px,4vw,56px) 28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:28px 56px;font-size:16px">
+    <div><span style={`display:block;${D};font-weight:900;font-size:36px;line-height:1;text-transform:uppercase;color:#ECE8DF`}>Vancouver Wolfpack</span><span style="font-weight:700;font-size:12px;letter-spacing:0.26em;color:#A9CC5A">LANDSCAPING LTD.</span></div>
+    <div style="display:flex;flex-direction:column;gap:6px"><a href={site.phoneHref} style="color:#FFFFFF;font-weight:700;text-decoration:none">{site.contactName}: {site.phone}</a><a href={`mailto:${site.email}`} style="color:#BFBAB0;overflow-wrap:anywhere">{site.email}</a></div>
+    <div style="display:flex;flex-direction:column;gap:6px"><span>Langley · Surrey · Metro Vancouver</span><span>Residential and commercial</span></div>
+    <div style="display:flex;flex-direction:column;gap:6px"><a href={site.facebook} target="_blank" rel="noopener" style="color:#BFBAB0">Facebook</a></div>
+  </div>
+  <div style="max-width:1440px;margin:0 auto;padding:16px clamp(20px,4vw,56px) 28px;font-size:14px;color:#8A867E">© {new Date().getFullYear()} {site.name}</div>
+  <div class="mob-only" style="height:68px"></div>
+</footer>
+
+<div class="mobile-bar" style="position:fixed;left:0;right:0;bottom:0;z-index:50;grid-template-columns:1fr 1fr">
+  <a href={site.phoneHref} style={`background:#111311;color:#ECE8DF;${D};font-weight:900;font-size:21px;text-transform:uppercase;text-align:center;padding:19px 8px;text-decoration:none;border-top:2px solid #8DB33A`}>Call {site.contactName}</a>
+  <a href="/contact" style={`background:#8DB33A;color:#111311;${D};font-weight:900;font-size:21px;text-transform:uppercase;text-align:center;padding:19px 8px;text-decoration:none`}>Free Quote</a>
+</div>
+
+</div>
+
+<script is:inline>
+  // Mobile menu: open / close the full-width overlay.
+  (function () {
+    var btn = document.getElementById('menu-btn');
+    var menu = document.getElementById('mobile-menu');
+    if (!btn || !menu) return;
+    btn.addEventListener('click', function () {
+      var open = menu.hidden;
+      menu.hidden = !open;
+      btn.textContent = open ? 'Close' : 'Menu';
+      btn.setAttribute('aria-expanded', String(open));
+    });
+  })();
+</script>
+
+<style is:global>
+  html, body { margin: 0; padding: 0; background: #111311; color: #ECE8DF; }
+  * { box-sizing: border-box; }
+  a { color: #A9CC5A; text-underline-offset: 4px; }
+  a:hover { color: #FFFFFF; }
+  img { display: block; }
+  input, select, textarea, button { font-family: inherit; }
+
+  /* Buttons (hover colours from the prototype) */
+  .btn-green { background: #8DB33A; color: #111311 !important; }
+  .btn-green:hover { background: #A9CC5A; }
+  .btn-outline { border: 2px solid #ECE8DF; color: #FFFFFF; }
+  .btn-outline:hover { background: #ECE8DF; color: #111311; }
+
+  /* Below 1140px: hide desktop nav, show Menu button + sticky bottom bar */
+  .desk { display: flex; }
+  .mob-only, .mobile-bar { display: none; }
+  #mobile-menu:not([hidden]) { display: flex; }
+  @media (max-width: 1139px) {
+    .desk { display: none; }
+    .mob-only { display: block; }
+    .mobile-bar { display: grid; }
+  }
+  @media (min-width: 1140px) {
+    #mobile-menu { display: none !important; }
+  }
+</style>
+</body>
+</html>
